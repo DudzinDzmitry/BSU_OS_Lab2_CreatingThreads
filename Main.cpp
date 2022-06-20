@@ -45,6 +45,17 @@ int main() {
     WaitForSingleObject(average, INFINITE);
     CloseHandle(average);
 
+    array[metaArray->min] = metaArray->average;
+    array[metaArray->max] = metaArray->average;
+    delete metaArray;
+
+    std::cout << "Массив, где наибольший и наименьший элеменеты были заменены средним арифметическим:\n";
+    while (i < length) {
+        std::cout << array[i] << " ";
+        ++i;
+    }
+    delete[] array;
+
     system("pause");
     return 0;
 }
