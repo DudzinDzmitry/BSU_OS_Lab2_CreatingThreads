@@ -11,7 +11,26 @@ struct MetaArray {
     MetaArray(int *array, int length) : array(array), length(length), min(array[0]), max(array[0]), average(array[0]) {}
 };
 
-DWORD WINAPI Min_Max(LPVOID lpParameter) {}
+DWORD WINAPI Min_Max(LPVOID lpParameter) {
+    MetaArray *metaArray;
+    metaArray = (MetaArray *) lpParameter;
+
+    int i = 1;
+    while (i < metaArray->length) {
+        if (metaArray->array[i] < metaArray->array[metaArray->min])
+            metaArray->min = i;
+        Sleep(7);
+        if (metaArray->array[i] > metaArray->array[metaArray->max])
+            metaArray->max = i;
+        Sleep(7);
+        ++i;
+    }
+
+    std::cout << "Наименьший элемент массива: " << metaArray->array[metaArray->min] << ";\n";
+    std::cout << "Наибольший элемент массива: " << metaArray->array[metaArray->max] << ";\n";
+
+    return 0;
+}
 
 DWORD WINAPI Average(LPVOID lpParam) {}
 
