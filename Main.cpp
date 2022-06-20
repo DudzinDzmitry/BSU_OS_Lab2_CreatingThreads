@@ -32,7 +32,23 @@ DWORD WINAPI Min_Max(LPVOID lpParameter) {
     return 0;
 }
 
-DWORD WINAPI Average(LPVOID lpParam) {}
+DWORD WINAPI Average(LPVOID lpParam) {
+    MetaArray *metaArray;
+    metaArray = (MetaArray *) lpParam;
+
+    int i = 1;
+    while (i < metaArray->length) {
+        metaArray->average += metaArray->array[i];
+        Sleep(12);
+        ++i;
+    }
+
+    metaArray->average /= metaArray->length;
+
+    std::cout << "Среднее арифметическое элементов массива: " << metaArray->average << '\n';
+
+    return 0;
+}
 
 int main() {
     SetConsoleOutputCP(CP_UTF8);
