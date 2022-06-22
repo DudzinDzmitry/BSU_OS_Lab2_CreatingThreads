@@ -71,12 +71,20 @@ int main() {
     metaArray = new MetaArray(array, length);
 
     HANDLE min_max = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) Min_Max, LPVOID(metaArray), 0, NULL);
-    if (min_max == NULL) return GetLastError();
+    if (min_max == NULL) {
+        std::cout << "Не удалось создать поток min_max, поскольку при создании была встречена ошибка " << GetLastError() << "\n";
+        system("pause");
+        return GetLastError();
+    }
     WaitForSingleObject(min_max, INFINITE);
     CloseHandle(min_max);
 
     HANDLE average = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) Average, LPVOID(metaArray), 0, NULL);
-    if (average == NULL) return GetLastError();
+    if (average == NULL) {
+        std::cout << "Не удалось создать поток average, поскольку при создании была встречена ошибка " << GetLastError() << "\n";
+        system("pause");
+        return GetLastError();
+    }
     WaitForSingleObject(average, INFINITE);
     CloseHandle(average);
 
