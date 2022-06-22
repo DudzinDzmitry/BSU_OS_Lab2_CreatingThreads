@@ -56,23 +56,24 @@ int main() {
             << "Данная программа находит наибольший, наименьший элементы массива и среднее арифметическое элементов массива.\n";
 
     std::cout << "Введите количество элементов в массиве:";
-    int length;
-    std::cin >> length;
+    int workArrayLength;
+    std::cin >> workArrayLength;
 
     std::cout << "Введите элементы массива:\n";
-    int *array = new int[length];
+    int *workArray = new int[workArrayLength];
     int i = 0;
-    while (i < length) {
-        std::cin >> array[i];
+    while (i < workArrayLength) {
+        std::cin >> workArray[i];
         ++i;
     }
 
     MetaArray *metaArray;
-    metaArray = new MetaArray(array, length);
+    metaArray = new MetaArray(workArray, workArrayLength);
 
     HANDLE min_max = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) Min_Max, LPVOID(metaArray), 0, NULL);
     if (min_max == NULL) {
-        std::cout << "Не удалось создать поток min_max, поскольку при создании была встречена ошибка " << GetLastError() << "\n";
+        std::cout << "Не удалось создать поток min_max, поскольку при создании была встречена ошибка " << GetLastError()
+                  << "\n";
         system("pause");
         return GetLastError();
     }
@@ -81,23 +82,25 @@ int main() {
 
     HANDLE average = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) Average, LPVOID(metaArray), 0, NULL);
     if (average == NULL) {
-        std::cout << "Не удалось создать поток average, поскольку при создании была встречена ошибка " << GetLastError() << "\n";
+        std::cout << "Не удалось создать поток average, поскольку при создании была встречена ошибка " << GetLastError()
+                  << "\n";
         system("pause");
         return GetLastError();
     }
     WaitForSingleObject(average, INFINITE);
     CloseHandle(average);
 
-    array[metaArray->min] = metaArray->average;
-    array[metaArray->max] = metaArray->average;
+    workArray[metaArray->min] = metaArray->average;
+    workArray[metaArray->max] = metaArray->average;
     delete metaArray;
 
     std::cout << "Массив, где наибольший и наименьший элеменеты были заменены средним арифметическим:\n";
-    while (i < length) {
-        std::cout << array[i] << " ";
+    i = 0;
+    while (i < workArrayLength) {
+        std::cout << workArray[i] << " ";
         ++i;
     }
-    delete[] array;
+    delete[] workArray;
 
     system("pause");
     return 0;
